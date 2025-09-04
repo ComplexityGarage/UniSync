@@ -1,0 +1,3 @@
+GxEPD2
+U8g2_for_Adafruit_GFX
+ArduinoJson
