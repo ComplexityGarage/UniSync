@@ -1,13 +1,20 @@
-# Title of the project
-# Authors 
--  
-# Description of the project 
+# UniSync
+
+## Description of the project 
 Text here... 
-# Science and tech used 
+
+## Science and tech used 
 Text & plots here... 
-# State of the art 
+
+## State of the art 
 Text & plots here... 
-# What next?
+
+## What next?
 Text here... 
-# Sources 
-- [Writing on GitHub] ( https://docs.github.com/en/get-started/writing-on-github ) 
+
+## Authors 
+- Viktoriia Iashchuk
+- Vitalii Kazakevich
+
+## Sources
+- [Getting Started with Seeed Studio XIAO ESP32C6](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/) 
