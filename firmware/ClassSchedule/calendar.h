@@ -4,8 +4,8 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-#include <GxEPD2_BW.h>
-#include <GxEPD2_3C.h>
+#include <GxEPD2_4G_4G.h>
+#include <GxEPD2_4G_BW.h>
 #include <U8g2_for_Adafruit_GFX.h>
 
 #include <fonts/FreeMonoBold8pt7b.h>

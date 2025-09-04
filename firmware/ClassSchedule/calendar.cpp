@@ -24,7 +24,7 @@ std::vector<ClassInfo> prev_day_classes;
 std::vector<ClassInfo> next_day_classes;
 std::vector<uint8_t> bitmap;
 
-GxEPD2_3C<GxEPD2_750_T7, GxEPD2_750_T7::HEIGHT> display(GxEPD2_750_T7(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+GxEPD2_4G_BW<GxEPD2_750_T7, GxEPD2_750_T7::HEIGHT> display(GxEPD2_750_T7(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
 U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 
@@ -141,14 +141,14 @@ void drawSidebar() {
 }
 
 void printNotification() {
-  display.fillRoundRect(562 + PADDING_X * 2, PADDING_Y + 60, 180, 230, 6, GxEPD_RED);
+  display.fillRoundRect(562 + PADDING_X * 2, PADDING_Y + 60, 180, 230, 6, GxEPD_LIGHTGREY);
   display.setTextColor(GxEPD_WHITE);
   display.setFont(&FreeMonoBold9pt7b);
   display.setCursor(562 + PADDING_X * 2 + 10, PADDING_Y + 80);
   display.print("UWAGA!");
 
   u8g2Fonts.setForegroundColor(GxEPD_WHITE);
-  u8g2Fonts.setBackgroundColor(GxEPD_RED);
+  u8g2Fonts.setBackgroundColor(GxEPD_LIGHTGREY);
   drawWrappedText(notification, 562 + PADDING_X * 2 + 10, PADDING_Y + 100, 160);
 }
 

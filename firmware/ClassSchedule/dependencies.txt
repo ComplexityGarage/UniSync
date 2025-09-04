@@ -1,3 +1,5 @@
 GxEPD2
 U8g2_for_Adafruit_GFX
 ArduinoJson
+
+https://github.com/ZinggJM/GxEPD2_4G (Select Sketch > Include library > Add .ZIP Library)
