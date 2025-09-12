@@ -9,6 +9,7 @@ The UniSync system provides real-time synchronization with our custom-built web 
 - Seeed Studio XIAO ESP32C6
 - ePaper Breakout Board
 - Waveshare 7.5" E-Ink display, 800×480
+- Li-Pol battery - 1050 mAh, 3.7 V
 - Raspberry Pi 5 as web server
 
 You can find the circuit diagram in the [hardware](./hardware/) directory.
