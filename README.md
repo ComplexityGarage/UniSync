@@ -3,13 +3,20 @@
 ## Description of the project 
 The UniSync system provides real-time synchronization with our custom-built web platform, which leverages the USOS API to display live classroom schedules. The platform also enables users to book classrooms and display important announcements from teachers.
 
-# Science and tech used
+## Science and tech used
+
+#### Hardware
 - Seeed Studio XIAO ESP32C6
 - ePaper Breakout Board
 - Waveshare 7.5" E-Ink display, 800×480
-- Raspberry Pi 5 + Docker as web server
+- Raspberry Pi 5 as web server
 
 You can find the circuit diagram in the [hardware](./hardware/) directory.
+
+#### Web Platform
+- Next.js
+- USOS API
+- Docker
 
 ## State of the art 
 The UniSync has reached the prototype stage and is now ready for initial testing within the university environment.
