@@ -45,7 +45,7 @@ If the UniSync system proves successful during the limited testing phase, we hav
 
 - Add multilingual support
 - Microsoft Teams integration (for notifications)
-- Google Chrome extension for teachers, which also sets “Busy” status during calls
+- Google Chrome extension for teachers
 
 These improvements will help make UniSync more practical and secure for wider use across the university. The whole system (both device and web platform) can be further refined based on testing results.
 
@@ -56,5 +56,5 @@ These improvements will help make UniSync more practical and secure for wider us
 
 ## Sources
 
-- [The UniLog Device](https://github.com/ComplexityGarage/Lecture-attendance-monitoring-device)
 - [Getting Started with Seeed Studio XIAO ESP32C6](https://wiki.seeedstudio.com/xiao_esp32c6_getting_started/)
+- [The UniLog Device](https://github.com/ComplexityGarage/Lecture-attendance-monitoring-device)
