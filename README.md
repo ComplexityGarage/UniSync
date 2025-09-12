@@ -1,7 +1,7 @@
 # UniSync
 
 ## Description of the project 
-Text here... 
+The UniSync device provides real-time synchronization with our custom-built web platform, which leverages the USOS API to display live classroom schedules. The platform also enables users to book classrooms and display important announcements from teachers.
 
 # Science and tech used
 - Seeed Studio XIAO ESP32C6
