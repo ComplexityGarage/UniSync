@@ -18,6 +18,7 @@ You can find the circuit diagram in the [hardware](./hardware/) directory.
 - Next.js
 - USOS API
 - Docker
+- Cloudflare Tunnel
 
 ## State of the art 
 The UniSync has reached the prototype stage and is now ready for initial testing within the university environment.
