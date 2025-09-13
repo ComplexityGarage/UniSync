@@ -1,0 +1,29 @@
+services:
+  app:
+    image: node:22-alpine
+    command: sh -c "npm install && npx prisma db push && npm run dev"
+    ports:
+      - 3000:3000
+    working_dir: /web
+    volumes:
+      - .:/web
+      - /web/node_modules
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      AUTH_SECRET: ${AUTH_SECRET}
+      USOS_CLIENT_ID: ${USOS_CLIENT_ID}
+      USOS_CLIENT_SECRET: ${USOS_CLIENT_SECRET}
+      USOS_API_ACESS_TOKEN: ${USOS_API_ACESS_TOKEN}
+      USOS_API_TOKEN_SECRET: ${USOS_API_TOKEN_SECRET}
+
+  db:
+    image: mysql:8.4
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+    volumes:
+      - ./mysql:/var/lib/mysql

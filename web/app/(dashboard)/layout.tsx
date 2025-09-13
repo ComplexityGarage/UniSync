@@ -29,9 +29,10 @@ export default async function RootLayout({
     redirect('/')
   }
 
-  if (session.user.role == Role.GUEST) {
-    return forbidden()
-  }
+  // @TODO: add allowed emails in .env
+  // if (session.user.role == Role.GUEST) {
+  //   return forbidden()
+  // }
 
   return (
     <html lang="en">
