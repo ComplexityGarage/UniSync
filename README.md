@@ -1,6 +1,6 @@
 # UniSync
 
-![Device demonstration](./.github/demo.webm)
+![Device demonstration](https://github.com/user-attachments/assets/6b1b2d5c-67eb-4f7a-b78d-c7b06744af72)
 
 ## Description of the project
 
