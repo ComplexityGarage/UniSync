@@ -1,5 +1,7 @@
 # UniSync
 
+![Device demonstration](./.github/demo.webm)
+
 ## Description of the project
 
 The UniSync system provides real-time synchronization with our custom-built web platform, which leverages the USOS API to display live classroom schedules. The platform also enables users to book classrooms and display important announcements from teachers.
