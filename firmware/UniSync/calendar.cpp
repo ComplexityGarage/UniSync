@@ -24,7 +24,7 @@ std::vector<ClassInfo> prev_day_classes;
 std::vector<ClassInfo> next_day_classes;
 std::vector<uint8_t> bitmap;
 
-GxEPD2_4G_4G<GxEPD2_750_GDEY075T7, GxEPD2_750_GDEY075T7::HEIGHT / 2> display(GxEPD2_750_GDEY075T7(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+GxEPD2_BW<GxEPD2_750_GDEY075T7, GxEPD2_750_GDEY075T7::HEIGHT> display(GxEPD2_750_GDEY075T7(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
 U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 
@@ -101,7 +101,7 @@ void drawDayHeaders() {
     display.setTextColor(GxEPD_BLACK);
     display.setCursor(x - 14, PADDING_Y + 40);
     if (days_indexes[i] == 1) {
-      display.fillCircle(x, PADDING_Y + 34, 20, GxEPD_RED);
+      display.fillCircle(x, PADDING_Y + 34, 20, GxEPD_BLACK);
       display.setTextColor(GxEPD_WHITE);
     }
     display.print(day_nums[days_indexes[i]]);
@@ -113,7 +113,7 @@ void drawGrid() {
     int y = (i - START_H) * ROW_HEIGHT + PADDING_Y + 70 + 5;  // 70 - header's height, 5 - margin-top
     int x = PADDING_X;
 
-    display.drawLine(x, y, 558, y, GxEPD_BLACK);
+    display.drawLine(0, y, 558, y, GxEPD_BLACK);
     display.setFont(&FreeMono9pt7b);
     display.setCursor(x, y + 20);
     display.print(i);
@@ -138,14 +138,14 @@ void drawSidebar() {
 }
 
 void printNotification() {
-  display.fillRoundRect(562 + PADDING_X * 2, PADDING_Y + 60, 180, 230, 6, GxEPD_LIGHTGREY);
+  display.fillRoundRect(562 + PADDING_X * 2, PADDING_Y + 60, 195, 230, 6, GxEPD_BLACK);
   display.setTextColor(GxEPD_WHITE);
   display.setFont(&FreeMonoBold9pt7b);
   display.setCursor(562 + PADDING_X * 2 + 10, PADDING_Y + 80);
   display.print("UWAGA!");
 
   u8g2Fonts.setForegroundColor(GxEPD_WHITE);
-  u8g2Fonts.setBackgroundColor(GxEPD_LIGHTGREY);
+  u8g2Fonts.setBackgroundColor(GxEPD_BLACK);
   drawWrappedText(notification, 562 + PADDING_X * 2 + 10, PADDING_Y + 100, 160);
 }
 
@@ -196,15 +196,18 @@ void drawClass(const std::vector<ClassInfo>& classList, int dayIndex) {
     int x = colWidth * dayIndex + COL_HOUR_WIDTH + PADDING_X + 5;
     int h = (duration * ROW_HEIGHT) / 60 - 4;
 
-    display.fillRoundRect(x, y, colWidth - 10, h, 6, cls.cancelled == "true" ? GxEPD_LIGHTGREY : GxEPD_BLACK);
-
     if (cls.cancelled == "true") {
+      display.fillRoundRect(x, y, colWidth - 10, h, 6, GxEPD_WHITE);
+      display.drawRoundRect(x, y, colWidth - 10, h, 6, GxEPD_BLACK);
+
       display.fillRoundRect(colWidth * dayIndex + colWidth - 40, y + 4, 60, 16, 30, GxEPD_BLACK);
       u8g2Fonts.setFont(u8g2_font_6x10_tf);
       u8g2Fonts.setForegroundColor(GxEPD_WHITE);
       u8g2Fonts.setBackgroundColor(GxEPD_BLACK);
       u8g2Fonts.setCursor(colWidth * dayIndex + colWidth - 34, y + 15);
       u8g2Fonts.print("Odwolane");
+    } else {
+      display.fillRoundRect(x, y, colWidth - 10, h, 6, GxEPD_BLACK);
     }
 
     // display.fillRoundRect(x, y, colWidth - 10, h, 6, GxEPD_BLACK);
@@ -215,7 +218,7 @@ void drawClass(const std::vector<ClassInfo>& classList, int dayIndex) {
     timeStr += String(end_h) + ":" + (end_m < 10 ? "0" : "") + String(end_m);
 
     u8g2Fonts.setFont(u8g2_font_7x13_tf);
-    u8g2Fonts.setForegroundColor( cls.cancelled == "true" ? GxEPD_BLACK : GxEPD_WHITE);
+    u8g2Fonts.setForegroundColor(cls.cancelled == "true" ? GxEPD_BLACK : GxEPD_WHITE);
     u8g2Fonts.setBackgroundColor(cls.cancelled == "true" ? GxEPD_LIGHTGREY : GxEPD_BLACK);
     u8g2Fonts.setCursor(x + 4, y + 15);
     u8g2Fonts.print(timeStr);
