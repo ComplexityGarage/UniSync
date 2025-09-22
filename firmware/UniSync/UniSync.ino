@@ -41,19 +41,22 @@ String inputBuffer;
 bool isFirstInit = true;
 bool isFetchInProgress = false;
 int syncInterval = 60;
-long long lastUpdatedAt = 0;
+RTC_DATA_ATTR long long lastUpdatedAt = preferences.getLong64("last_updated_at");
 
 void setup() {
   Serial.begin(115200);
   preferences.begin("config", false);
   connectWifi();
-  initDisplay();
 
-  if (isFirstInit) {
-    isFirstInit = false;
+  esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
+
+  if (cause == ESP_SLEEP_WAKEUP_UNDEFINED) {
+    initDisplay(true);
     refreshDisplay();
     fetchCalendarData();
     drawCalendar();
+  } else {
+    initDisplay(false);
   }
 }
 
@@ -193,22 +196,22 @@ void loop() {
     return;
   }
 
-  String previous_notification = notification;
-  String previous_room_description = room_description;
-  String previous_room_subtitle = room_subtitle;
-  String previous_room_title = room_title;
-  String previousRoomlink = roomLink;
-  String previousTemplateType = templateType;
-  long long previousLastUpdatedAt = lastUpdatedAt;
+  String prevNotification = notification;
+  String prevRoomDescription = room_description;
+  String prevRoomSubtitle = room_subtitle;
+  String prevRoomTitle = room_title;
+  String prevRoomlink = roomLink;
+  String prevTemplateType = templateType;
+  long long prevLastUpdatedAt = lastUpdatedAt;
 
   fetchCalendarData();
 
-  if (previous_notification != notification || previous_room_description != room_description || previous_room_subtitle != room_subtitle || previous_room_title != room_title || previousRoomlink != roomLink) {
+  if (prevNotification != notification || prevRoomDescription != room_description || prevRoomSubtitle != room_subtitle || prevRoomTitle != room_title || prevRoomlink != roomLink) {
     Serial.println("Refresh sidebar");
     updateSidebar();
   }
 
-  if (previousLastUpdatedAt != lastUpdatedAt || previousTemplateType != templateType) {
+  if (prevLastUpdatedAt != lastUpdatedAt || prevTemplateType != templateType) {
     Serial.println("Refresh calendar");
     drawCalendar();
   }

@@ -43,7 +43,7 @@ extern std::vector<ClassInfo> current_day_classes;
 extern std::vector<ClassInfo> prev_day_classes;
 extern std::vector<ClassInfo> next_day_classes;
 
-void initDisplay();
+void initDisplay(bool initial);
 void refreshDisplay();
 void drawCalendar();
 void drawDayHeaders();

@@ -24,14 +24,14 @@ std::vector<ClassInfo> prev_day_classes;
 std::vector<ClassInfo> next_day_classes;
 std::vector<uint8_t> bitmap;
 
-GxEPD2_4G_BW<GxEPD2_750_T7, GxEPD2_750_T7::HEIGHT> display(GxEPD2_750_T7(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
+GxEPD2_4G_4G<GxEPD2_750_GDEY075T7, GxEPD2_750_GDEY075T7::HEIGHT / 2> display(GxEPD2_750_GDEY075T7(EPD_CS, EPD_DC, EPD_RST, EPD_BUSY));
 
 U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;
 
 QRCodeGFX qrcode(display);
 
-void initDisplay() {
-  display.init(115200, true, 2, false);
+void initDisplay(bool initial) {
+  display.init(115200, initial, 2, false);
   display.setFullWindow();
 
   u8g2Fonts.begin(display);
@@ -196,13 +196,13 @@ void drawClass(const std::vector<ClassInfo>& classList, int dayIndex) {
     int x = colWidth * dayIndex + COL_HOUR_WIDTH + PADDING_X + 5;
     int h = (duration * ROW_HEIGHT) / 60 - 4;
 
-    display.fillRoundRect(x, y, colWidth - 10, h, 6, GxEPD_BLACK);
+    display.fillRoundRect(x, y, colWidth - 10, h, 6, cls.cancelled == "true" ? GxEPD_LIGHTGREY : GxEPD_BLACK);
 
     if (cls.cancelled == "true") {
-      display.fillRoundRect(colWidth * dayIndex + colWidth - 40, y + 4, 60, 16, 30, GxEPD_RED);
+      display.fillRoundRect(colWidth * dayIndex + colWidth - 40, y + 4, 60, 16, 30, GxEPD_BLACK);
       u8g2Fonts.setFont(u8g2_font_6x10_tf);
       u8g2Fonts.setForegroundColor(GxEPD_WHITE);
-      u8g2Fonts.setBackgroundColor(GxEPD_RED);
+      u8g2Fonts.setBackgroundColor(GxEPD_BLACK);
       u8g2Fonts.setCursor(colWidth * dayIndex + colWidth - 34, y + 15);
       u8g2Fonts.print("Odwolane");
     }
@@ -215,8 +215,8 @@ void drawClass(const std::vector<ClassInfo>& classList, int dayIndex) {
     timeStr += String(end_h) + ":" + (end_m < 10 ? "0" : "") + String(end_m);
 
     u8g2Fonts.setFont(u8g2_font_7x13_tf);
-    u8g2Fonts.setForegroundColor(GxEPD_WHITE);
-    u8g2Fonts.setBackgroundColor(GxEPD_BLACK);
+    u8g2Fonts.setForegroundColor( cls.cancelled == "true" ? GxEPD_BLACK : GxEPD_WHITE);
+    u8g2Fonts.setBackgroundColor(cls.cancelled == "true" ? GxEPD_LIGHTGREY : GxEPD_BLACK);
     u8g2Fonts.setCursor(x + 4, y + 15);
     u8g2Fonts.print(timeStr);
 
