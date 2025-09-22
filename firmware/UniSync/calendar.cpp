@@ -34,11 +34,13 @@ void initDisplay() {
   display.init(115200, true, 2, false);
   display.setFullWindow();
 
-  display.clearScreen();
-  display.refresh(false);
-
   u8g2Fonts.begin(display);
   u8g2Fonts.setFont(u8g2_font_unifont_t_polish);
+}
+
+void refreshDisplay() {
+  display.clearScreen();
+  display.refresh(false);
 }
 
 void drawCalendar() {
@@ -61,9 +63,6 @@ void drawCalendar() {
     days_indexes.push_back(2);
   }
 
-  // display.clearScreen();
-  // display.refresh(true);  // full update
-
   display.firstPage();
   do {
     display.fillScreen(GxEPD_WHITE);
@@ -74,8 +73,6 @@ void drawCalendar() {
     drawClasses();
     drawSidebar();
   } while (display.nextPage());
-
-  // display.display();
 }
 
 void drawLayout() {

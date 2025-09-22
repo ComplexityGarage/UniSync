@@ -28,7 +28,7 @@ void connectWifi() {
 #endif
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(60000);
+    delay(1000);
     Serial.print(".");
   }
 }
@@ -38,6 +38,7 @@ void connectWifi() {
 
 Preferences preferences;
 String inputBuffer;
+bool isFirstInit = true;
 bool isFetchInProgress = false;
 int syncInterval = 60;
 long long lastUpdatedAt = 0;
@@ -46,10 +47,14 @@ void setup() {
   Serial.begin(115200);
   preferences.begin("config", false);
   connectWifi();
-
   initDisplay();
-  fetchCalendarData();
-  drawCalendar();
+
+  if (isFirstInit) {
+    isFirstInit = false;
+    refreshDisplay();
+    fetchCalendarData();
+    drawCalendar();
+  }
 }
 
 void fetchCalendarData() {
@@ -188,8 +193,6 @@ void loop() {
     return;
   }
 
-  // esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
-
   String previous_notification = notification;
   String previous_room_description = room_description;
   String previous_room_subtitle = room_subtitle;
@@ -209,6 +212,11 @@ void loop() {
     drawCalendar();
   }
   // drawCalendar();
-  // esp_deep_sleep_start();
-  delay(syncInterval * 1000);
+
+  if (Serial) {
+    delay(syncInterval * 1000);
+  } else {
+    esp_sleep_enable_timer_wakeup(syncInterval * uS_TO_S_FACTOR);
+    esp_deep_sleep_start();
+  }
 }
