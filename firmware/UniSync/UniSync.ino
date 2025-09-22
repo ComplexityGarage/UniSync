@@ -40,7 +40,7 @@ Preferences preferences;
 String inputBuffer;
 bool isFetchInProgress = false;
 int syncInterval = 60;
-int lastUpdatedAt = 0;
+long long lastUpdatedAt = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -91,7 +91,7 @@ void parseCalendarJson(const String &payload) {
   room_title = doc["room_title"].as<String>();
   room_subtitle = doc["room_subtitle"].as<String>();
   room_description = doc["room_description"].as<String>();
-  lastUpdatedAt = doc["last_updated_at"].as<int>();
+  lastUpdatedAt = doc["last_updated_at"];
   notification = doc["notification"].as<String>();
   templateType = doc["template"].as<String>();
   syncInterval = doc["sync_interval"].as<int>();
@@ -149,7 +149,7 @@ void updateApiUrl(String url) {
     Serial.println("[API_URL_UPDATED]");
     return;
   }
-  
+
   preferences.putString("api_url", url);
   Serial.println("[API_URL_UPDATED]");
 
@@ -170,7 +170,7 @@ void loop() {
       }
 
       inputBuffer = "";
-      
+
       delay(1000);
     } else {
       inputBuffer += c;
@@ -195,15 +195,17 @@ void loop() {
   String previous_room_subtitle = room_subtitle;
   String previous_room_title = room_title;
   String previousRoomlink = roomLink;
-  int previousLastUpdatedAt = lastUpdatedAt;
+  long long previousLastUpdatedAt = lastUpdatedAt;
 
   fetchCalendarData();
 
   if (previous_notification != notification || previous_room_description != room_description || previous_room_subtitle != room_subtitle || previous_room_title != room_title || previousRoomlink != roomLink) {
+    Serial.println("Refresh sidebar");
     updateSidebar();
   }
 
   if (previousLastUpdatedAt != lastUpdatedAt) {
+    Serial.println("Refresh calendar");
     drawCalendar();
   }
   // drawCalendar();

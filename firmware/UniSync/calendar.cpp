@@ -35,15 +35,15 @@ void initDisplay() {
   display.setFullWindow();
 
   display.clearScreen();
-  display.refresh(false);  
+  display.refresh(false);
 
   u8g2Fonts.begin(display);
-  u8g2Fonts.setFont(u8g2_font_unifont_t_polish); 
+  u8g2Fonts.setFont(u8g2_font_unifont_t_polish);
 }
 
 void drawCalendar() {
   days_indexes.clear();
-  
+
   if (templateType == "1") {
     columns = 1;
     colWidth = COL_WIDTH * 3;
@@ -61,8 +61,8 @@ void drawCalendar() {
     days_indexes.push_back(2);
   }
 
-  display.clearScreen();
-  display.refresh(true);  // full update
+  // display.clearScreen();
+  // display.refresh(true);  // full update
 
   display.firstPage();
   do {
@@ -75,7 +75,7 @@ void drawCalendar() {
     drawSidebar();
   } while (display.nextPage());
 
-  display.display();
+  // display.display();
 }
 
 void drawLayout() {
@@ -171,16 +171,16 @@ void updateSidebar() {
 }
 
 void drawClasses() {
-  if(columns == 2) {
+  if (columns == 2) {
     drawClass(current_day_classes, 0);
     drawClass(next_day_classes, 1);
   };
 
-  if(columns == 1) {
-   drawClass(current_day_classes, 0);
+  if (columns == 1) {
+    drawClass(current_day_classes, 0);
   }
-  
-  if(columns == 3) {
+
+  if (columns == 3) {
     drawClass(prev_day_classes, 0);
     drawClass(current_day_classes, 1);
     drawClass(next_day_classes, 2);
@@ -223,8 +223,8 @@ void drawClass(const std::vector<ClassInfo>& classList, int dayIndex) {
     u8g2Fonts.setCursor(x + 4, y + 15);
     u8g2Fonts.print(timeStr);
 
-    u8g2Fonts.setFont(u8g2_font_unifont_t_polish); 
-    u8g2Fonts.setCursor(x + 4, y + 31); // start writing at this position
+    u8g2Fonts.setFont(u8g2_font_unifont_t_polish);
+    u8g2Fonts.setCursor(x + 4, y + 31);  // start writing at this position
     u8g2Fonts.print(cls.name_pl);
   }
 }
@@ -280,13 +280,13 @@ void drawWrappedText(String text, int16_t x, int16_t y, int16_t wrapWidth) {
 }
 
 void drawQRCode() {
-  if(roomLink == "") return;
+  if (roomLink == "") return;
 
   display.setFont(&FreeMonoBold9pt7b);
   display.setCursor(562 + PADDING_X * 2, 340);
   display.setTextColor(GxEPD_BLACK);
   display.print(roomLinkLabel);
-  
+
   qrcode.setScale(4);
   qrcode.draw(roomLink, 562 + PADDING_X * 2, 350);
 }
