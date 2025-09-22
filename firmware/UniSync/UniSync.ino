@@ -198,6 +198,7 @@ void loop() {
   String previous_room_subtitle = room_subtitle;
   String previous_room_title = room_title;
   String previousRoomlink = roomLink;
+  String previousTemplateType = templateType;
   long long previousLastUpdatedAt = lastUpdatedAt;
 
   fetchCalendarData();
@@ -207,11 +208,10 @@ void loop() {
     updateSidebar();
   }
 
-  if (previousLastUpdatedAt != lastUpdatedAt) {
+  if (previousLastUpdatedAt != lastUpdatedAt || previousTemplateType != templateType) {
     Serial.println("Refresh calendar");
     drawCalendar();
   }
-  // drawCalendar();
 
   if (Serial) {
     delay(syncInterval * 1000);
