@@ -41,7 +41,7 @@ String inputBuffer;
 bool isFirstInit = true;
 bool isFetchInProgress = false;
 int syncInterval = 60;
-RTC_DATA_ATTR long long lastUpdatedAt = preferences.getLong64("last_updated_at");
+RTC_DATA_ATTR long long lastUpdatedAt = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -103,7 +103,7 @@ void parseCalendarJson(const String &payload) {
   notification = doc["notification"].as<String>();
   templateType = doc["template"].as<String>();
   syncInterval = doc["sync_interval"].as<int>();
-
+  lastSyncTime = doc["current_time"].as<String>();
   roomLinkLabel = doc["room_link_label"].as<String>();
   roomLink = doc["room_link"].as<String>();
 
@@ -195,30 +195,21 @@ void loop() {
     delay(10000);
     return;
   }
-
-  String prevNotification = notification;
-  String prevRoomDescription = room_description;
-  String prevRoomSubtitle = room_subtitle;
-  String prevRoomTitle = room_title;
-  String prevRoomlink = roomLink;
-  String prevTemplateType = templateType;
+  
   long long prevLastUpdatedAt = lastUpdatedAt;
 
   fetchCalendarData();
 
-  if (prevNotification != notification || prevRoomDescription != room_description || prevRoomSubtitle != room_subtitle || prevRoomTitle != room_title || prevRoomlink != roomLink) {
-    Serial.println("Refresh sidebar");
-    updateSidebar();
-  }
-
-  if (prevLastUpdatedAt != lastUpdatedAt || prevTemplateType != templateType) {
+  if (prevLastUpdatedAt != lastUpdatedAt) {
     Serial.println("Refresh calendar");
     drawCalendar();
   }
 
   if (Serial) {
-    delay(syncInterval * 1000);
+    delay(4000);
   } else {
+    hibernateDisplay();
+    delay(2000);
     esp_sleep_enable_timer_wakeup(syncInterval * uS_TO_S_FACTOR);
     esp_deep_sleep_start();
   }

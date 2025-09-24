@@ -6,6 +6,7 @@ String room_subtitle;
 String room_description;
 String notification;
 String templateType;
+String lastSyncTime;
 
 String roomLinkLabel;
 String roomLink;
@@ -41,6 +42,10 @@ void initDisplay(bool initial) {
 void refreshDisplay() {
   display.clearScreen();
   display.refresh(false);
+}
+
+void hibernateDisplay() {
+  display.hibernate();
 }
 
 void drawCalendar() {
@@ -138,7 +143,7 @@ void drawSidebar() {
 }
 
 void printNotification() {
-  display.fillRoundRect(562 + PADDING_X * 2, PADDING_Y + 60, 195, 230, 6, GxEPD_BLACK);
+  display.fillRoundRect(562 + PADDING_X * 2, PADDING_Y + 60, 200, 230, 6, GxEPD_BLACK);
   display.setTextColor(GxEPD_WHITE);
   display.setFont(&FreeMonoBold9pt7b);
   display.setCursor(562 + PADDING_X * 2 + 10, PADDING_Y + 80);
@@ -165,6 +170,7 @@ void updateSidebar() {
     display.fillScreen(GxEPD_WHITE);
     drawSidebar();
   } while (display.nextPage());
+
 }
 
 void drawClasses() {
@@ -288,5 +294,5 @@ void drawQRCode() {
   display.print(roomLinkLabel);
 
   qrcode.setScale(4);
-  qrcode.draw(roomLink, 562 + PADDING_X * 2, 350);
+  qrcode.draw(roomLink, 562 + PADDING_X * 2 - 10, 345);
 }

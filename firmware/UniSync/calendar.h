@@ -25,6 +25,7 @@ extern String notification;
 
 extern String roomLinkLabel;
 extern String roomLink;
+extern String lastSyncTime;
 
 extern String day_names[3];
 extern String day_nums[3];
@@ -44,6 +45,7 @@ extern std::vector<ClassInfo> next_day_classes;
 
 void initDisplay(bool initial);
 void refreshDisplay();
+void hibernateDisplay();
 void drawCalendar();
 void drawDayHeaders();
 void drawGrid();
