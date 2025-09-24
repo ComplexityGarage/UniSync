@@ -82,5 +82,5 @@ export async function toggleTimetable(formData: FormData) {
     }
   })
 
-  redirect(`/dashboard`)
+  redirect(`/rooms/${timetable.roomId}`)
 }

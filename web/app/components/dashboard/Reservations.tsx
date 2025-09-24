@@ -36,8 +36,8 @@ export default function Reservations({ reservations }: { resereservationsrvatoin
             </div>
 
             <div className="col-span-3 capitalize">
-              {reservation.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -{' '}
-              {reservation.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {reservation.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Warsaw' })} -{' '}
+              {reservation.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Warsaw' })}
               , {format(reservation.startTime, 'd LLL, yyyy', { locale: pl })}
             </div>
 

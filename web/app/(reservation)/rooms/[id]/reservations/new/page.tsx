@@ -20,12 +20,16 @@ export default async function ReservationForm({
     return notFound()
   }
 
-  const submitForm = () => { }
+  const submitForm = () => {}
 
   return (
     <>
       <h1 className="text-2xl font-medium text-center mb-4">Zarezerwować</h1>
-      <p className="text-center mb-6 text-[#5F6265]">Aby wysłać wniosek o rezerwację sali {room.number}, wypełnij ten formularz. Kiedy wniosek zostanie zatwierdzony, otrzymasz powiadomienie na e-mail.</p>
+      <p className="text-center mb-6 text-[#5F6265]">
+        Aby wysłać wniosek o rezerwację sali {room.number}, wypełnij ten
+        formularz. Kiedy wniosek zostanie zatwierdzony, otrzymasz powiadomienie
+        na e-mail.
+      </p>
 
       <Form action={createReservation} className="mt-5">
         <div className="grid grid-cols-1 gap-6">
@@ -33,28 +37,51 @@ export default async function ReservationForm({
 
           <div>
             <label className="block mb-1">Imię i nazwisko</label>
-            <input name="name" className="form-control" placeholder="Imię i nazwisko" />
+            <input
+              name="name"
+              className="form-control"
+              placeholder="Imię i nazwisko"
+            />
           </div>
 
           <div>
             <label className="block mb-1">Email</label>
-            <input name="email" type="email" className="form-control" placeholder="vicky@example.com" />
+            <input
+              name="email"
+              type="email"
+              className="form-control"
+              placeholder="vicky@example.com"
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-1">Od</label>
-              <input name="startTime" type="datetime-local" className="form-control" />
+              <input
+                name="startTime"
+                type="datetime-local"
+                className="form-control"
+                step="1800"
+              />
             </div>
             <div>
               <label className="block mb-1">Do</label>
-              <input name="endTime" type="datetime-local" className="form-control" />
+              <input
+                name="endTime"
+                type="datetime-local"
+                className="form-control"
+                step="1800"
+              />
             </div>
           </div>
 
           <div>
             <label className="block mb-1">Cel</label>
-            <input name="purpose" className="form-control h-16" placeholder="Cel" />
+            <input
+              name="purpose"
+              className="form-control h-16"
+              placeholder="Cel"
+            />
           </div>
 
           <div>

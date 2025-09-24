@@ -21,7 +21,7 @@ export default async function Room({
       notifications: {
         where: {
           expiresAt: {
-            gt: new Date().toISOString()
+            gt: new Date()
           }
         }
       },
@@ -35,7 +35,10 @@ export default async function Room({
 
   const roomClasses = await prisma.timetable.findMany({
     where: {
-      roomId: room.id
+      roomId: room.id,
+      endTime: {
+        gte: new Date()
+      }
     }
   })
 
@@ -107,12 +110,13 @@ export default async function Room({
 
         <Form action={addTimetable}>
           <input type="hidden" name="roomId" value={room.id} />
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block mb-1">Ważne od</label>
               <input
                 name="startTime"
+                step="1800"
                 type="datetime-local"
                 className="form-control"
                 placeholder="Expires At"
@@ -124,6 +128,7 @@ export default async function Room({
               <input
                 name="endTime"
                 type="datetime-local"
+                step="1800"
                 className="form-control"
                 placeholder="Expires At"
               />

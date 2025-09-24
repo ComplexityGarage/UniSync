@@ -88,7 +88,11 @@ export default async function Room({
           </dd>
           <dt className="font-medium">Ostatnia synchronizacja o</dt>
           <dd>
-            {device.lastSyncAt ? device.lastSyncAt.toLocaleString() : '...'}
+            {device.lastSyncAt
+              ? device.lastSyncAt.toLocaleString('pl-PL', {
+                  timeZone: 'Europe/Warsaw'
+                })
+              : '...'}
           </dd>
           <dt className="font-medium">Interwał aktualizacji</dt>
           <dd>{device.syncInterval} s</dd>

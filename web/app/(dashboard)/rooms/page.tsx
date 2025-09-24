@@ -33,8 +33,6 @@ export default async function Rooms() {
           }
   })
 
-  console.log(rooms[1])
-
   return (
     <div className="bg-white rounded-2xl p-4 shadow-xs min-h-full">
       <div className="flex justify-between items-center mb-6">

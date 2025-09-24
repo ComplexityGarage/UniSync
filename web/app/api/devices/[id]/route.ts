@@ -142,7 +142,7 @@ export async function GET(
   })
 
   const timestamps = [...roomClasses, ...reservations].map((el) =>
-    el.updatedAt.getTime()
+    Math.floor(el.updatedAt.getTime() / 1000)
   )
 
   const lastUpdatedAt = timestamps.length ? Math.max(...timestamps) : null
@@ -162,7 +162,7 @@ export async function GET(
       ? `https://class.codeseals.dev/rooms/${room.id}/reservations/new`
       : room.link,
     room_link_label: room.enableReservations ? 'Rezerwacja' : 'Link',
-
+    current_time: new Date().toJSON(),
     last_updated_at: lastUpdatedAt || 0
   })
 }

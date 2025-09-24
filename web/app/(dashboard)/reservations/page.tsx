@@ -31,10 +31,10 @@ export default async function Reservations() {
       user.role == Role.ADMIN
         ? {}
         : {
-          usos_id: {
-            in: user.roomIds
+            usos_id: {
+              in: user.roomIds
+            }
           }
-        }
   })
 
   const pendingReservations = await prisma.reservation.findMany({
@@ -43,6 +43,9 @@ export default async function Reservations() {
     },
     where: {
       isAccepted: false,
+      endTime: {
+        gte: new Date()
+      },
       roomId: {
         in: rooms.map((room) => room.id)
       }
@@ -55,6 +58,9 @@ export default async function Reservations() {
     },
     where: {
       isAccepted: true,
+      endTime: {
+        gte: new Date()
+      },
       roomId: {
         in: rooms.map((room) => room.id)
       }
@@ -120,39 +126,68 @@ export default async function Reservations() {
               <div className="col-span-3 capitalize">
                 {reservation.startTime.toLocaleTimeString([], {
                   hour: '2-digit',
-                  minute: '2-digit'
+                  minute: '2-digit',
+                  timeZone: 'Europe/Warsaw'
                 })}{' '}
                 -{' '}
                 {reservation.endTime.toLocaleTimeString([], {
                   hour: '2-digit',
-                  minute: '2-digit'
+                  minute: '2-digit',
+                  timeZone: 'Europe/Warsaw'
                 })}
                 , {format(reservation.startTime, 'd LLL, yyyy', { locale: pl })}
               </div>
 
               <div className="col-span-1">
-                <div className={`px-2 py-1 rounded-full uppercase text-xs font-medium w-min ${getStatusClasses(reservation.status)}`}>
+                <div
+                  className={`px-2 py-1 rounded-full uppercase text-xs font-medium w-min ${getStatusClasses(
+                    reservation.status
+                  )}`}
+                >
                   {reservation.status}
                 </div>
               </div>
 
               <div className="col-span-3 capitalize flex gap-2 justify-end">
+                {reservation.status == ReservationStatus.PENDING ? (
+                  <Form action={setReservationStatus}>
+                    <input
+                      type="hidden"
+                      name="reservationId"
+                      value={reservation.id}
+                    />
+                    <input
+                      type="hidden"
+                      name="status"
+                      value={ReservationStatus.APPROVED}
+                    />
+                    <button type="submit" className="btn-outline-sm">
+                      Przyjmij
+                    </button>
+                  </Form>
+                ) : (
+                  ''
+                )}
 
-                {reservation.status == ReservationStatus.PENDING ? <Form action={setReservationStatus}>
-                  <input type="hidden" name="reservationId" value={reservation.id} />
-                  <input type="hidden" name="status" value={ReservationStatus.APPROVED} />
-                  <button type="submit" className="btn-outline-sm">
-                    Przyjmij
-                  </button>
-                </Form> : ''}
-
-                {reservation.status != ReservationStatus.CANCELLED ? <Form action={setReservationStatus}>
-                  <input type="hidden" name="reservationId" value={reservation.id} />
-                  <input type="hidden" name="status" value={ReservationStatus.CANCELLED} />
-                  <button type="submit" className="btn-outline-sm">
-                    Odrzuć
-                  </button>
-                </Form> : ''}
+                {reservation.status != ReservationStatus.CANCELLED ? (
+                  <Form action={setReservationStatus}>
+                    <input
+                      type="hidden"
+                      name="reservationId"
+                      value={reservation.id}
+                    />
+                    <input
+                      type="hidden"
+                      name="status"
+                      value={ReservationStatus.CANCELLED}
+                    />
+                    <button type="submit" className="btn-outline-sm">
+                      Odrzuć
+                    </button>
+                  </Form>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           ))}
@@ -228,12 +263,14 @@ export default async function Reservations() {
                   <td className="border-b border-gray-200 py-2 px-4 text-sm capitalize">
                     {reservation.startTime.toLocaleTimeString([], {
                       hour: '2-digit',
-                      minute: '2-digit'
+                      minute: '2-digit',
+                      timeZone: 'Europe/Warsaw'
                     })}{' '}
                     -{' '}
                     {reservation.endTime.toLocaleTimeString([], {
                       hour: '2-digit',
-                      minute: '2-digit'
+                      minute: '2-digit',
+                      timeZone: 'Europe/Warsaw'
                     })}
                     ,{' '}
                     {format(reservation.startTime, 'd LLL, yyyy', {

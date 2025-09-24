@@ -6,6 +6,7 @@ import Reservations from '@/app/components/dashboard/Reservations'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import { Role } from '@prisma/client'
+import { startOfWeek, endOfWeek } from 'date-fns'
 
 export default async function Dashboard() {
   const session = await auth()
@@ -30,20 +31,26 @@ export default async function Dashboard() {
       user.role == Role.ADMIN
         ? {}
         : {
-          usos_id: {
-            in: user.roomIds
+            usos_id: {
+              in: user.roomIds
+            }
           }
-        }
   })
+
+  const now = new Date()
+  const weekStart = startOfWeek(now, { weekStartsOn: 1 })
+  const weekEnd = endOfWeek(now, { weekStartsOn: 1 })
 
   const timetables = await prisma.timetable.findMany({
     include: {
-      room: true,
+      room: true
     },
     where: {
       lecturerIds: {
         array_contains: user.usosId
-      }
+      },
+      startTime: { gte: weekStart },
+      endTime: { lte: weekEnd }
     }
   })
 
@@ -54,6 +61,9 @@ export default async function Dashboard() {
     where: {
       roomId: {
         in: rooms.map((room) => room.id)
+      },
+      endTime: {
+        gte: new Date()
       }
     }
   })
@@ -71,7 +81,11 @@ export default async function Dashboard() {
         </div>
 
         {timetables.length > 0 ? <Classes timetables={timetables} /> : ''}
-        {reservations.length > 0 ? <Reservations reservations={reservations} /> : ''}
+        {reservations.length > 0 ? (
+          <Reservations reservations={reservations} />
+        ) : (
+          ''
+        )}
       </div>
     </div>
   )
