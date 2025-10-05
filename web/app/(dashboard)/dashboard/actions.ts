@@ -5,14 +5,20 @@ import prisma from '@/lib/prisma'
 import { z } from 'zod'
 
 const notificationSchema = z.object({
-  content: z.string(),
-  expiresAt: z.string()
+  roomId: z.string().nonempty(),
+  content: z.string().nonempty(),
+  expiresAt: z.string().datetime({ local: true })
 })
 
 type NotificationInput = z.infer<typeof notificationSchema>
 
 export async function deleteNotification(formData: FormData) {
   const roomId = formData.get('roomId')
+
+  if (!roomId || typeof roomId !== 'string') {
+    throw new Error('Room not found')
+  }
+
   const notificationId = formData.get('notificationId')
 
   if (!notificationId || typeof notificationId !== 'string') {
@@ -23,26 +29,32 @@ export async function deleteNotification(formData: FormData) {
     where: { id: notificationId }
   })
 
+  await prisma.room.update({
+    data: {
+      updatedAt: new Date()
+    },
+    where: { id: parseInt(roomId) }
+  })
+
   redirect(`/dashboard`)
 }
 
-export async function addNotification(formData: FormData) {
-  const roomId = formData.get('roomId')
-
-  if (!roomId || typeof roomId !== 'string') {
-    throw new Error('Invalid room ID')
-  }
-
+export async function addNotification(initialState: any, formData: FormData) {
   const parsed = notificationSchema.safeParse({
+    roomId: formData.get('roomId'),
     content: formData.get('content'),
     expiresAt: formData.get('expiresAt')
   })
 
   if (!parsed.success) {
-    throw new Error('Validation Error')
+    return {
+      success: false,
+      errors: parsed.error.flatten().fieldErrors
+    }
   }
 
   const data: NotificationInput = parsed.data
+  const roomId = parseInt(data.roomId)
 
   await prisma.notification.create({
     data: {
@@ -51,10 +63,17 @@ export async function addNotification(formData: FormData) {
 
       room: {
         connect: {
-          id: parseInt(roomId)
+          id: roomId
         }
       }
     }
+  })
+
+  await prisma.room.update({
+    data: {
+      updatedAt: new Date()
+    },
+    where: { id: roomId }
   })
 
   redirect(`/dashboard`)

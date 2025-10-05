@@ -2,6 +2,7 @@ import Link from 'next/link'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import ConnectDevice from '@/app/components/devices/ConnectDevice'
+import SyncLogs from '@/app/components/devices/SyncLogs'
 
 export default async function Room({
   params
@@ -18,7 +19,7 @@ export default async function Room({
       room: true,
       syncLogs: {
         orderBy: { createdAt: 'desc' },
-        take: 1
+        take: 10
       }
     }
   })
@@ -106,6 +107,11 @@ export default async function Room({
       </div>
 
       <ConnectDevice deviceId={device.id} />
+
+      <div className="bg-white rounded-2xl p-4 shadow-xs mt-8">
+        <h2 className="text-lg font-medium mb-5">Historia synchronizacji</h2>
+        <SyncLogs syncLogs={device.syncLogs} />
+      </div>
     </>
   )
 }

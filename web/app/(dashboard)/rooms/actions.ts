@@ -100,7 +100,6 @@ export async function updateRoom(formData: FormData) {
   })
 
   await syncRoomData(room)
-  await syncClasses(room)
 
   redirect(`/rooms/${room.id}`)
 }
