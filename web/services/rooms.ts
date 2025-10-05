@@ -33,12 +33,6 @@ export async function syncRoomData(room: Room) {
 }
 
 export async function syncClasses(room: Room) {
-  await prisma.timetable.deleteMany({
-    where: {
-      roomId: room.id
-    }
-  })
-
   const timetables = await getRequest({
     token: process.env.USOS_API_ACESS_TOKEN ?? '',
     secret: process.env.USOS_API_TOKEN_SECRET ?? '',
