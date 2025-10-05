@@ -5,6 +5,7 @@ import Form from 'next/form'
 import { addTimetable, deleteNotification, deleteRoom } from '../actions'
 import Classes from '@/app/components/rooms/Classes'
 import Devices from '@/app/components/rooms/Devices'
+import { endOfDay } from 'date-fns'
 
 export default async function Room({
   params
@@ -21,11 +22,18 @@ export default async function Room({
       notifications: {
         where: {
           expiresAt: {
-            gt: new Date()
+            gte: new Date()
           }
         }
       },
-      devices: true
+      devices: {
+        include: {
+          syncLogs: {
+            orderBy: { createdAt: 'desc' },
+            take: 1
+          }
+        }
+      }
     }
   })
 
@@ -37,7 +45,7 @@ export default async function Room({
     where: {
       roomId: room.id,
       endTime: {
-        gte: new Date()
+        gte: endOfDay(new Date())
       }
     }
   })
@@ -116,7 +124,6 @@ export default async function Room({
               <label className="block mb-1">Ważne od</label>
               <input
                 name="startTime"
-                step="1800"
                 type="datetime-local"
                 className="form-control"
                 placeholder="Expires At"
@@ -128,7 +135,6 @@ export default async function Room({
               <input
                 name="endTime"
                 type="datetime-local"
-                step="1800"
                 className="form-control"
                 placeholder="Expires At"
               />

@@ -15,13 +15,19 @@ export default async function Room({
       id: deviceId
     },
     include: {
-      room: true
+      room: true,
+      syncLogs: {
+        orderBy: { createdAt: 'desc' },
+        take: 1
+      }
     }
   })
 
   if (!device) {
     return notFound()
   }
+
+  const lastSyncAt = device.syncLogs[0] ? device.syncLogs[0].createdAt : null
 
   return (
     <>
@@ -88,8 +94,8 @@ export default async function Room({
           </dd>
           <dt className="font-medium">Ostatnia synchronizacja o</dt>
           <dd>
-            {device.lastSyncAt
-              ? device.lastSyncAt.toLocaleString('pl-PL', {
+            {lastSyncAt
+              ? lastSyncAt.toLocaleString('pl-PL', {
                   timeZone: 'Europe/Warsaw'
                 })
               : '...'}

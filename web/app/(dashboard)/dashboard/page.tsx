@@ -25,7 +25,14 @@ export default async function Dashboard() {
 
   const rooms = await prisma.room.findMany({
     include: {
-      devices: true
+      devices: {
+        include: {
+          syncLogs: {
+            orderBy: { createdAt: 'desc' },
+            take: 1
+          }
+        }
+      }
     },
     where:
       user.role == Role.ADMIN

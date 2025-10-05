@@ -1,8 +1,20 @@
-import { format, subDays, addDays, differenceInCalendarDays } from 'date-fns'
+import {
+  format,
+  subDays,
+  addDays,
+  differenceInCalendarDays,
+  startOfToday
+} from 'date-fns'
 import { pl } from 'date-fns/locale'
 import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
-import { Reservation, ReservationStatus, Timetable } from '@prisma/client'
+import {
+  Device,
+  Reservation,
+  ReservationStatus,
+  Room,
+  Timetable
+} from '@prisma/client'
 
 const capitalize = (string: String) => {
   return string
@@ -84,6 +96,21 @@ const getCalendar = (roomClasses: Timetable[], reservations: Reservation[]) => {
   }
 }
 
+function getLastUpdatedTimestamp(
+  room: Room,
+  roomClasses: Timetable[],
+  reservations: Reservation[]
+) {
+  const timestamps = [...roomClasses, ...reservations].map((el) =>
+    Math.floor(el.updatedAt.getTime() / 1000)
+  )
+
+  timestamps.push(Math.floor(room.updatedAt.getTime() / 1000))
+  timestamps.push(Math.floor(startOfToday().getTime() / 1000))
+
+  return Math.max(...timestamps)
+}
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -132,20 +159,11 @@ export async function GET(
     }
   })
 
-  await prisma.device.update({
-    where: {
-      id: device.id
-    },
+  await prisma.deviceSyncLog.create({
     data: {
-      lastSyncAt: new Date()
+      deviceId: device.id
     }
   })
-
-  const timestamps = [...roomClasses, ...reservations].map((el) =>
-    Math.floor(el.updatedAt.getTime() / 1000)
-  )
-
-  const lastUpdatedAt = timestamps.length ? Math.max(...timestamps) : null
 
   return Response.json({
     room_title: room.number,
@@ -157,12 +175,10 @@ export async function GET(
       : '',
     template: device.template,
     sync_interval: device.syncInterval,
-
     room_link: room.enableReservations
       ? `https://class.codeseals.dev/rooms/${room.id}/reservations/new`
       : room.link,
     room_link_label: room.enableReservations ? 'Rezerwacja' : 'Link',
-    current_time: new Date().toJSON(),
-    last_updated_at: lastUpdatedAt || 0
+    last_updated_at: getLastUpdatedTimestamp(room, roomClasses, reservations)
   })
 }

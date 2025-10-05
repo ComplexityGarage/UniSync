@@ -25,7 +25,6 @@ export default async function NewNotification() {
                         <input
                             name="expiresAt"
                             type="datetime-local"
-                            step="1800"
                             className="form-control"
                             placeholder="Expires At"
                         />
