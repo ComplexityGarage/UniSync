@@ -54,7 +54,7 @@ export default async function NewRoom() {
                 value="true"
                 className="w-0 h-0 opacity-0"
               />
-              Enable Reservations
+              Włącz rezerwacje
               <span className="custom-checkbox"><span></span></span>
             </label>
           </div>

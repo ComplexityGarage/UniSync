@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import Form from 'next/form'
-import { deleteAccount } from './actions'
+import { deleteAccount, updatePassword } from './actions'
 import { Role } from '@prisma/client'
 
 export default async function Settings() {
@@ -36,11 +36,59 @@ export default async function Settings() {
           <dd>{user.role || '-'}</dd>
         </dl>
 
+        <div className="flex justify-between items-center mt-20 pb-4 border-b border-gray-200">
+          <h1 className="text-2xl font-medium grow shrink-0">Aktualizacja hasła</h1>
+        </div>
+
+        <div>
+          <Form action={updatePassword} className="mt-5">
+            <div className="grid grid-cols-1 gap-6">
+              <div>
+                <label className="block mb-1">Obecne hasło</label>
+                <input
+                  type="password"
+                  name="currentPassword"
+                  className="form-control"
+                  placeholder="Wpisz obecne hasło"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1">Nowe hasło</label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  className="form-control"
+                  placeholder="Wpisz nowe hasło"
+                  minLength={8}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1">Powtórz nowe hasło</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  className="form-control"
+                  placeholder="Powtórz nowe hasło"
+                  required
+                />
+              </div>
+
+              <div className="flex justify-end gap-4">
+                <button type="submit" className="btn-primary">
+                  Zapisz hasło
+                </button>
+              </div>
+            </div>
+          </Form>
+        </div>
+
         {user.role != Role.ADMIN ? (
-          <Form action={deleteAccount} className="mt-10">
-            <button className="btn-outline-red">
-              Usuń konto
-            </button>
+          <Form action={deleteAccount} className="mt-20">
+            <button className="btn-outline-red">Usuń konto</button>
           </Form>
         ) : (
           ''
