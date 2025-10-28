@@ -49,7 +49,6 @@ export default function ConnectDevice({ deviceId }: { deviceId: string }) {
           }
 
           if (value) {
-            console.log(`Test: ${result}`)
             result += value
           }
         }

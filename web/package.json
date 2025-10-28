@@ -11,6 +11,7 @@
     "@auth/prisma-adapter": "^2.9.0",
     "@prisma/client": "^6.9.0",
     "@types/w3c-web-serial": "^1.0.8",
+    "bcryptjs": "^3.0.2",
     "bmp-js": "^0.1.0",
     "bmp-ts": "^1.0.9",
     "clsx": "^2.1.1",

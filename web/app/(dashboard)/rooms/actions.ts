@@ -32,7 +32,6 @@ const timetableSchema = z.object({
 type TimetableInput = z.infer<typeof timetableSchema>
 
 export async function createRoom(formData: FormData) {
-  console.log(formData)
   const raw = {
     name: formData.get('name'),
     description: formData.get('description'),

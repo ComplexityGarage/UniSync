@@ -36,7 +36,7 @@ export default async function Settings() {
           <dd>{user.role || '-'}</dd>
         </dl>
 
-        {session.user.role != Role.ADMIN ? (
+        {user.role != Role.ADMIN ? (
           <Form action={deleteAccount} className="mt-10">
             <button className="btn-outline-red">
               Usuń konto

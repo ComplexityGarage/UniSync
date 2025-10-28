@@ -5,10 +5,12 @@ import type {
 } from 'next'
 import type { NextAuthOptions } from 'next-auth'
 import { getServerSession } from 'next-auth'
+import bcrypt from 'bcryptjs'
 import UsosProvider from '@/providers/usos'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@/lib/prisma'
+import { z } from 'zod'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,33 +24,45 @@ export const authOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' }
       },
+      async authorize(credentials, req) {
+        const parsedCredentials = z
+          .object({ email: z.string().email(), password: z.string().min(6) })
+          .safeParse(credentials)
+
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data
+
+          const user = await prisma.user.findUnique({
+            where: { email }
+          })
+          if (!user || !user.password) return null
+
+          const isPasswordValid = await bcrypt.compare(password, user.password)
+          if (!isPasswordValid) return null
+
+          return { id: user.id, email: user.email, name: user.name }
+        }
+
+        return null
+      }
     })
   ],
 
-  session: {
-    maxAge: 2 * 60 * 60
-  },
+  session: { strategy: 'jwt', maxAge: 2 * 60 * 60 },
 
   callbacks: {
-    session({ session, user }) {
-      if(session.user) {
-        session.user.id = user.id
-        session.user.role = user.role
-        session.user.usosId = user.usosId
-      }
+    session({ session, token }: { session: any; token: any }) {
+      session.user.id = token.sub
       return session
-    },
+    }
   },
+
   pages: {
-    signIn: "/auth/login",
-    // signOut: "/auth/logout",
-    // error: "/auth/error",
-    // verifyRequest: "/auth/verify-request",
-    // newUser: "/auth/signup",
-  },
+    signIn: '/auth/login'
+  }
 } satisfies NextAuthOptions
 
 export async function auth(

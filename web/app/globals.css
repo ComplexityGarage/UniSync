@@ -14,64 +14,62 @@ body {
   color: #090d1a;
 }
 
-@layer components {
-  .form-control {
-    @apply border border-gray-300 bg-white rounded-lg pl-4 pr-10 py-3 w-full shadow-xs leading-normal text-gray-900 focus:border-[#6C62DD] focus:outline-4 outline-[#EFEDFF] focus:outline-offset-0;
-  }
+.form-control {
+  @apply border border-gray-300 bg-white rounded-lg pl-4 pr-10 py-3 w-full shadow-xs leading-normal text-gray-900 focus:border-[#6C62DD] focus:outline-4 outline-[#EFEDFF] focus:outline-offset-0;
+}
 
-  .btn-primary {
-    @apply bg-[#6C62DD] rounded-lg px-6 py-3 text-white font-medium transition duration-200 cursor-pointer hover:shadow-sm;
-  }
+.btn-primary {
+  @apply bg-[#6C62DD] rounded-lg px-6 py-3 text-white font-medium transition duration-200 cursor-pointer hover:shadow-sm;
+}
 
-  .btn-primary-md {
-    @apply bg-[#6C62DD] rounded-lg py-2 text-blue-400 px-6 font-medium transition duration-200 cursor-pointer hover:shadow-sm flex items-center gap-2;
-  }
+.btn-primary-md {
+  @apply bg-[#6C62DD] rounded-lg py-2 text-blue-400 px-6 font-medium transition duration-200 cursor-pointer hover:shadow-sm flex items-center gap-2;
+}
 
-  .btn-usos {
-    @apply flex items-center justify-center w-full gap-2 py-2 px-4 border border-[#6C62DD] rounded-lg font-medium transition duration-200 hover:outline-4 outline-[#EFEDFF] cursor-pointer;
-  }
+.btn-usos {
+  @apply flex items-center justify-center w-full gap-2 py-2 px-4 border border-[#6C62DD] rounded-lg font-medium transition duration-200 hover:outline-4 outline-[#EFEDFF] cursor-pointer;
+}
 
-  .btn-outline {
-    @apply bg-white border border-[#D0D5DD] rounded-md flex items-center font-medium gap-2 py-2 px-4 h-min cursor-pointer transition duration-200 hover:bg-gray-100;
-  }
+.btn-outline {
+  @apply bg-white border border-[#D0D5DD] rounded-md flex items-center font-medium gap-2 py-2 px-4 h-min cursor-pointer transition duration-200 hover:bg-gray-100;
+}
 
-  .btn-outline-sm {
-    @apply bg-white border border-[#D0D5DD] rounded-md flex items-center text-sm font-medium gap-2 py-2 px-3 h-min  cursor-pointer transition duration-200 hover:bg-gray-100;
-  }
+.btn-outline-sm {
+  @apply bg-white border border-[#D0D5DD] rounded-md flex items-center text-sm font-medium gap-2 py-2 px-3 h-min  cursor-pointer transition duration-200 hover:bg-gray-100;
+}
 
-  .btn-outline-red {
-    @apply bg-white border border-[#E25852] rounded-md flex items-center font-medium gap-2 py-3 px-6 h-min text-[#E25852] cursor-pointer transition duration-200 hover:bg-gray-100;
-  }
+.btn-outline-red {
+  @apply bg-white border border-[#E25852] rounded-md flex items-center font-medium gap-2 py-3 px-6 h-min text-[#E25852] cursor-pointer transition duration-200 hover:bg-gray-100;
+}
 
-  .template-radio input {
-    @apply opacity-0 w-0 h-0;
-  }
+.template-radio input {
+  @apply opacity-0 w-0 h-0;
+}
 
-  .template-radio input:checked ~ .template-radio__example {
-    @apply border border-primary;
-  }
+.template-radio input:checked ~ .template-radio__example {
+  @apply border border-primary;
+}
 
-  .link_tag {
-    @apply rounded-full px-2 py-1 text-sm flex items-center gap-2 bg-[#EBF6F9] text-[#3a94d2] font-medium w-fit transition duration-200 hover:bg-[#ceeef7];
-  }
+.link_tag {
+  @apply rounded-full px-2 py-1 text-sm flex items-center gap-2 bg-[#EBF6F9] text-[#3a94d2] font-medium w-fit transition duration-200 hover:bg-[#ceeef7];
+}
 
-  .form-checkbox {
-    @apply flex items-center cursor-pointer text-[#090D1A];
-  }
+.form-checkbox {
+  @apply flex items-center cursor-pointer text-[#090D1A];
+}
 
-  .form-checkbox .custom-checkbox {
-    @apply w-9 h-5 rounded-full bg-gray-300 p-0.5 flex shrink-0 transition duration-200 ml-auto;
-  }
+.form-checkbox .custom-checkbox {
+  @apply w-9 h-5 rounded-full bg-gray-300 p-0.5 flex shrink-0 transition duration-200 ml-auto;
+}
 
-  .form-checkbox .custom-checkbox > span {
-    @apply w-4 h-4 rounded-full bg-white shadow-sm transition duration-200;
-  }
+.form-checkbox .custom-checkbox > span {
+  @apply w-4 h-4 rounded-full bg-white shadow-sm transition duration-200;
+}
 
-  .form-checkbox input:checked + .custom-checkbox {
-    @apply bg-primary;
-  }
+.form-checkbox input:checked + .custom-checkbox {
+  @apply bg-primary;
+}
 
-  .form-checkbox input:checked + .custom-checkbox > span {
-    @apply ml-auto;
-  }
+.form-checkbox input:checked + .custom-checkbox > span {
+  @apply ml-auto;
 }

@@ -59,13 +59,14 @@ export default function LoginPage() {
                         <hr className="grow bg-[#D0D5DD]" />
                     </div>
                     <form method="post" action="/api/auth/callback/credentials" className="">
-                    {/* TODO: check if it works with email and password */}
                         <input name="csrfToken" type="hidden" defaultValue={csrfToken || ''} />
+                        <input name="callbackUrl" type="hidden" value="/dashboard"/>
+
                         <label className="mb-1 block font-medium">Email</label>
-                        <input type="email" name="username" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="form-control mb-6" />
+                        <input required={true} type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="form-control mb-6" />
 
                         <label className="mb-1 block font-medium">Hasło</label>
-                        <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="form-control mb-10" />
+                        <input required={true} type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="form-control mb-10" />
                         <button type="submit" className="btn-primary w-full">Zaloguj się</button>
                     </form>
                 </div>

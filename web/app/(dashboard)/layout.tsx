@@ -29,7 +29,13 @@ export default async function RootLayout({
     redirect('/')
   }
 
-  if (session.user.role == Role.GUEST) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id
+    }
+  })
+
+  if (!user || user.role == Role.GUEST) {
     return forbidden()
   }
 
@@ -37,7 +43,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${poppinsFont.variable} antialiased`}>
         <div className="flex h-screen bg-[#F5F7FB]">
-          <Sidebar role={session.user.role} />
+          <Sidebar role={user.role} />
           <main className="p-8 grow h-screen overflow-y-auto">{children}</main>
         </div>
       </body>
