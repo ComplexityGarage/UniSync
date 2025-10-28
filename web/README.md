@@ -31,9 +31,9 @@ sh get-docker.sh
 sudo usermod -aG docker $USER
 ```
 
-3. `git clone https://github.com/ComplexityGarage/NameOfTheProject1.git`
+3. `git clone https://github.com/ComplexityGarage/UniSync.git`
 
-4. `cd NameOfTheProject1/web`
+4. `cd UniSync/web`
 
 5. Create and edit .env file
 
