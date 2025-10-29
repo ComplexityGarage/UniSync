@@ -74,7 +74,7 @@ export default function ConnectDevice({ deviceId }: { deviceId: string }) {
 
     await writeMessage(
       port,
-      `URL:https://class.codeseals.dev/api/devices/${deviceId}`
+      `URL:https://unisync.local/api/devices/${deviceId}`
     )
   }
 

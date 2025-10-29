@@ -176,7 +176,7 @@ export async function GET(
     template: device.template,
     sync_interval: device.syncInterval,
     room_link: room.enableReservations
-      ? `https://class.codeseals.dev/rooms/${room.id}/reservations/new`
+      ? `https://unisync.codeseals.dev/rooms/${room.id}/reservations/new`
       : room.link,
     room_link_label: room.enableReservations ? 'Rezerwacja' : 'Link',
     last_updated_at: getLastUpdatedTimestamp(room, roomClasses, reservations)

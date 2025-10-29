@@ -37,7 +37,7 @@ export default function UsosProvider<P extends UsosProfile>(
       }
     },
     style: {
-      logo: 'https://class.codeseals.dev/usos.png',
+      logo: 'https://unisync.codeseals.dev/usos.png',
       bg: '#000',
       text: '#fff'
     },
