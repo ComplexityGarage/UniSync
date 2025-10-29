@@ -47,3 +47,7 @@ generated
 dev.db
 dev.db-journal
 mysql
+
+# caddy
+caddy_data/
+caddy_config/

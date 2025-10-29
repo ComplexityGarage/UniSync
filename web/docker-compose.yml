@@ -2,8 +2,6 @@ services:
   app:
     image: node:22-alpine
     command: sh -c "npm install && npx prisma db push && npm run build && npm run start"
-    ports:
-      - 80:3000
     working_dir: /web
     volumes:
       - .:/web
@@ -27,6 +25,18 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: true
+
+  caddy:
+    image: caddy:alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
 
   cloudflared:
     image: cloudflare/cloudflared:latest
