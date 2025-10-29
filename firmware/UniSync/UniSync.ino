@@ -10,7 +10,7 @@
 #include "esp_eap_client.h"
 #endif
 
-void connectWifi() {
+void connectWifi(int delayInterval = 1000) {
   Serial.println("WiFi connecting.");
 
 #if WIFI_USE_STA
@@ -28,7 +28,7 @@ void connectWifi() {
 #endif
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
+    delay(delayInterval);
     Serial.print(".");
   }
 }
@@ -46,6 +46,7 @@ RTC_DATA_ATTR long long lastUpdatedAt = 0;
 void setup() {
   Serial.begin(115200);
   preferences.begin("config", false);
+  delay(1000);
   connectWifi();
 
   esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
@@ -166,6 +167,11 @@ void updateApiUrl(String url) {
 }
 
 void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    connectWifi(5 * 60000);
+    return;
+  }
+
   while (Serial.available()) {
     char c = Serial.read();
 
