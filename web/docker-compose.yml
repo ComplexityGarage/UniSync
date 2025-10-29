@@ -3,7 +3,7 @@ services:
     image: node:22-alpine
     command: sh -c "npm install && npx prisma db push && npm run build && npm run start"
     ports:
-      - 3000:3000
+      - 80:3000
     working_dir: /web
     volumes:
       - .:/web
