@@ -5,7 +5,7 @@ import Form from 'next/form'
 import { addTimetable, deleteNotification, deleteRoom } from '../actions'
 import Classes from '@/app/components/rooms/Classes'
 import Devices from '@/app/components/rooms/Devices'
-import { endOfDay } from 'date-fns'
+import { startOfDay } from 'date-fns'
 
 export default async function Room({
   params
@@ -45,7 +45,7 @@ export default async function Room({
     where: {
       roomId: room.id,
       endTime: {
-        gte: endOfDay(new Date())
+        gte: startOfDay(new Date())
       }
     }
   })
