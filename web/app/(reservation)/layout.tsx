@@ -9,7 +9,7 @@ const poppinsFont = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'UJ Class Scheduler',
+  title: 'UniSync UJ',
   description: 'IoT device'
 }
 

@@ -14,7 +14,7 @@ const poppinsFont = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'UJ Class Scheduler',
+  title: 'UniSync UJ',
   description: 'IoT device'
 }
 
@@ -34,6 +34,23 @@ export default async function RootLayout({
       id: session.user.id
     }
   })
+
+  const adminEmails = (process.env.ADMIN_EMAILS ?? '')
+    .split(',')
+    .map((email: string) => email.trim())
+    .filter(Boolean)
+
+  const isAdminEmail = adminEmails.includes(user.email)
+  const desiredRole = isAdminEmail ? Role.ADMIN : Role.GUEST
+
+  if (user.role !== desiredRole) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { role: desiredRole }
+    })
+
+    redirect('/dashboard')
+  }
 
   if (!user || user.role == Role.GUEST) {
     return forbidden()
