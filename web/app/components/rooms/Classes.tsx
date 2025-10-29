@@ -2,7 +2,7 @@ import Form from 'next/form'
 import { Room, Timetable } from '@prisma/client'
 import { format } from 'date-fns'
 import { pl } from 'date-fns/locale'
-import { toggleTimetable } from '../../(dashboard)/dashboard/actions'
+import { toggleTimetable, deleteTimetable } from '../../(dashboard)/dashboard/actions'
 
 export default function Classes({ room, timetables }: { room: Room, timetables: Timetable[] }) {
   return (
