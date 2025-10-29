@@ -87,7 +87,7 @@ export default async function Room({
           <Form action={deleteRoom}>
             <input type="hidden" name="roomId" value={room.id} />
             <button className="btn-outline-red  w-min px-4 text-sm whitespace-nowrap">
-              Delete Room
+              Usuń salę
             </button>
           </Form>
         </div>

@@ -103,3 +103,25 @@ export async function toggleTimetable(formData: FormData) {
 
   redirect(`/rooms/${timetable.roomId}`)
 }
+
+export async function deleteTimetable(formData: FormData) {
+  const timetableId = formData.get('timetableId')
+
+  if (!timetableId || typeof timetableId !== 'string') {
+    throw new Error('Invalid timetable ID')
+  }
+  
+  const timetable = await prisma.timetable.findUnique({
+    where: {
+      id: timetableId
+    }
+  })
+
+  if (!timetable) return notFound()
+
+  await prisma.timetable.delete({
+    where: { id: timetableId }
+  })
+
+  redirect(`/rooms/${timetable.roomId}`)
+}

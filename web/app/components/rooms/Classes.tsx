@@ -37,6 +37,12 @@ export default function Classes({ room, timetables }: { room: Room, timetables: 
                 {timetable.cancelled ? 'Przywróć' : 'Odwołać'}
               </button>
             </Form>
+            <Form action={deleteTimetable}>
+              <input type="hidden" name="timetableId" value={timetable.id} />
+              <button type="submit" className="btn-outline-sm ml-8">
+                Usuń zajęcie
+              </button>
+            </Form>
           </div>
         ))}
       </div>
